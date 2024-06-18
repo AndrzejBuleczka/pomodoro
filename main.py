@@ -1,6 +1,5 @@
 from tkinter import *
 
-import timer
 import math
 
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -13,14 +12,19 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer = None
+
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
-    pass
-    # window.after_cancel(timer)
-    # canvas.itemconfig(timer_text, text="00:00")
-    # timer_label.config(text="Timer")
-    # check_marks.config(text="")
+    window.after_cancel(timer)
+    canvas.itemconfig(timer_text, text="00:00")
+    timer_label.config(text="Timer")
+    check_marks.config(text="")
+    global reps
+    reps = 0
+
+
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
     global reps
@@ -45,7 +49,8 @@ def count_down(count):
     count_sec = count % 60
     canvas.itemconfig(timer_text, text=f"{count_min:02d}:{count_sec:02d}")
     if count > 0:
-        window.after(1000, count_down, count - 1)
+        global timer
+        timer = window.after(1000, count_down, count - 1)
     else:
         start_timer()
         marks = ""
