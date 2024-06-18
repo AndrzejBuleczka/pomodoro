@@ -23,10 +23,12 @@ def reset_timer():
     check_marks.config(text="")
     global reps
     reps = 0
+    start_button.config(state=NORMAL)
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
+    start_button.config(state=DISABLED)
     global reps
     reps += 1
     work_sec = WORK_MIN * 60
