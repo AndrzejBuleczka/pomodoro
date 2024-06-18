@@ -1,6 +1,7 @@
 from tkinter import *
 
 import timer
+import math
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -21,10 +22,16 @@ def reset_timer():
     # check_marks.config(text="")
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
-    pass
+    count_down(WORK_MIN * 60)
     # global reps
     # reps += 1
-# ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
+# ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
+def count_down(count):
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
+    canvas.itemconfig(timer_text, text=f"{count_min:02d}:{count_sec:02d}")
+    if count > 0:
+        window.after(1000, count_down, count - 1)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -38,7 +45,7 @@ timer_label.grid(column=1, row=0)
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file="tomato.png")
 canvas.create_image(100, 112, image=tomato_img)
-canvas.create_text(105, 130, text="00:00", fill="white", font=(FONT_NAME, 30, "bold"))
+timer_text = canvas.create_text(105, 130, text="00:00", fill="white", font=(FONT_NAME, 30, "bold"))
 canvas.grid(column=1, row=1)
 
 start_button = Button(text="Start", highlightthickness=0, command=start_timer)
